@@ -69,7 +69,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "edolib-rs"
+name = "edolib"
 version = "0.1.0"
 dependencies = [
  "dirs",
