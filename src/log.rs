@@ -14,18 +14,18 @@ pub enum LogError {
     SetupFailed(String),
 }
 
-pub async fn setup(app_name: String) -> Result<(), LogError> {
+pub async fn setup(app_name: &str) -> Result<(), LogError> {
     setup_with_folder(app_name, None).await
 }
 
 pub async fn setup_with_folder(
-    app_name: String,
+    app_name: &str,
     config_folder: Option<PathBuf>,
 ) -> Result<(), LogError> {
     let app_config_dir = if let Some(config_folder) = config_folder {
-        config_folder.join(app_name.clone())
+        config_folder.join(app_name)
     } else {
-        dirs::config_dir(app_name.clone()).ok_or(LogError::SetupFailed(
+        dirs::config_dir(&app_name).ok_or(LogError::SetupFailed(
             "Could not find configuration directory".into(),
         ))?
     };

@@ -1,7 +1,7 @@
 use dirs;
 use std::path::{Path, PathBuf};
 
-pub fn config_dir(app_name: String) -> Option<PathBuf> {
+pub fn config_dir(app_name: &str) -> Option<PathBuf> {
     #[cfg(any(target_os = "linux", target_os = "macos"))]
     let dir = if Path::new("/.dockerenv").exists() {
         Some(PathBuf::from("/data"))
@@ -15,7 +15,7 @@ pub fn config_dir(app_name: String) -> Option<PathBuf> {
     dir.map(|p| p.join(app_name))
 }
 
-pub fn cache_dir(app_name: String) -> Option<PathBuf> {
+pub fn cache_dir(app_name: &str) -> Option<PathBuf> {
     #[cfg(any(target_os = "linux", target_os = "macos"))]
     let dir = if Path::new("/.dockerenv").exists() {
         Some(PathBuf::from("/cache"))
