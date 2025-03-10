@@ -51,9 +51,16 @@ pub async fn setup_with_folder(
         .with_filter(default_filter(LevelFilter::DEBUG))
         .boxed();
 
-    let stdout_layer = tracing_subscriber::fmt::layer()
-        .with_filter(default_filter(LevelFilter::INFO))
-        .boxed();
+    let stdout_layer = if PathBuf::from("/.dockerenv").exists() {
+        tracing_subscriber::fmt::layer()
+            .without_time()
+            .with_filter(default_filter(LevelFilter::INFO))
+            .boxed()
+    } else {
+        tracing_subscriber::fmt::layer()
+            .with_filter(default_filter(LevelFilter::INFO))
+            .boxed()
+    };
 
     let mut layers = Vec::new();
     layers.push(file_layer);
